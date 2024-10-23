@@ -4,34 +4,34 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import axios from 'axios'; // Import axios
+import { useState } from 'react'; // Import useState for managing messages
 
 const styles = {
   container: {
     padding: '20px',
-    backgroundColor: '#F7DCB9', // Background color
+    backgroundColor: '#F7DCB9',
     borderRadius: '10px',
     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
   },
   header: {
-    color: '#914F1E', // Primary color for header
+    color: '#914F1E',
     marginBottom: '20px',
   },
   button: {
-    backgroundColor: '#28A745', // Accent color for save button
+    backgroundColor: '#28A745',
     borderColor: '#28A745',
     marginRight: '10px',
   },
-  buttonHover: {
-    backgroundColor: '#218838', // Darker shade for button hover
-    borderColor: '#1e7e34',
-  },
   clearButton: {
-    backgroundColor: '#7f8991', // Secondary color for clear button
+    backgroundColor: '#7f8991',
     borderColor: '#6C757D',
   },
 };
 
 function AddProduct() {
+  const [message, setMessage] = useState(''); // State for feedback message
+
   const schema = yup.object().shape({
     productCode: yup.string().required('Product code is required'),
     name: yup.string().required('Name is required'),
@@ -41,18 +41,26 @@ function AddProduct() {
     dateAdded: yup.date().required('Date added is required').typeError('Date must be valid'),
   });
 
-  const handleSave = (values) => {
-    alert('Product saved!');
-    console.log('Product data:', values); // For debugging
+  const handleSave = async (values) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/products', values); // POST request
+      setMessage(`Product saved successfully: ${response.data.name}`); // Success message
+      console.log('Product data:', values); // For debugging
+    } catch (error) {
+      setMessage('Error saving product. Please try again.'); // Error message
+      console.error(error);
+    }
   };
 
   const handleClear = (resetForm) => {
     resetForm();
+    setMessage(''); // Clear message when clearing form
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>Add Product</h1>
+      {message && <p>{message}</p>} {/* Display feedback message */}
       <Formik
         validationSchema={schema}
         onSubmit={handleSave}
@@ -62,7 +70,7 @@ function AddProduct() {
           description: '',
           price: '',
           quantity: '',
-          dateAdded: ''
+          dateAdded: '',
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors, resetForm }) => (

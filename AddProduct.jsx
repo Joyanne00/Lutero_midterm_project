@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import axios from 'axios'; // Import axios
-import { useState } from 'react'; // Import useState for managing messages
+import axios from 'axios';
+import { useState } from 'react';
 
 // Styles for the component
 const styles = {
@@ -46,7 +46,14 @@ function AddProduct() {
   // Handle form submission
   const handleSave = async (values) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/products', values); // POST request
+      const response = await axios.post('http://localhost:5000/api/products', {
+        product_code: values.productCode,
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        qty: values.quantity,
+        date_added: values.dateAdded,
+      }); // Adjusted payload structure
       setMessage(`Product saved successfully: ${response.data.name}`); // Success message
       console.log('Product data:', values); // For debugging
     } catch (error) {

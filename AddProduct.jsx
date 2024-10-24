@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import axios from 'axios'; // Import axios
 import { useState } from 'react'; // Import useState for managing messages
 
+// Styles for the component
 const styles = {
   container: {
     padding: '20px',
@@ -32,6 +33,7 @@ const styles = {
 function AddProduct() {
   const [message, setMessage] = useState(''); // State for feedback message
 
+  // Validation schema for the form
   const schema = yup.object().shape({
     productCode: yup.string().required('Product code is required'),
     name: yup.string().required('Name is required'),
@@ -41,6 +43,7 @@ function AddProduct() {
     dateAdded: yup.date().required('Date added is required').typeError('Date must be valid'),
   });
 
+  // Handle form submission
   const handleSave = async (values) => {
     try {
       const response = await axios.post('http://localhost:5000/api/products', values); // POST request
@@ -52,6 +55,7 @@ function AddProduct() {
     }
   };
 
+  // Clear form and reset feedback message
   const handleClear = (resetForm) => {
     resetForm();
     setMessage(''); // Clear message when clearing form

@@ -4,6 +4,8 @@ import AddProduct from './AddProduct'; // Import AddProduct component
 import EditProduct from './EditProduct'; // Import EditProduct component
 import ProductList from './ProductList'; // Import ProductList component
 import Navigation from './Navigation'; // Import Navigation component
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (

@@ -1,10 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App'; // Correct path
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error("Root element not found. Make sure there is an element with id 'root' in your HTML.");
+}
+
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
     <App />
-  </StrictMode>,
-)
+  </React.StrictMode>
+);

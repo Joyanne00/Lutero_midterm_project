@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "formik": "^2.4.6",
+    "react-bootstrap": "^2.10.5",
+    "yup": "^1.4.0",
+    "start": "PORT=3001 react-scripts start"
+
+  }
+}

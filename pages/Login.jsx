@@ -21,10 +21,6 @@ const styles = {
     borderColor: '#28A745',
     marginRight: '10px',
   },
-  clearButton: {
-    backgroundColor: '#7f8991',
-    borderColor: '#6C757D',
-  },
 };
 
 function Login() {
@@ -43,7 +39,17 @@ function Login() {
         email: values.email,
         password: values.password,
       });
-      setMessage(`Welcome ${response.data.user.name}`);
+
+      if (response.data.user) {
+        // Store user info and token in localStorage
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.token);
+
+        setMessage(`Welcome ${response.data.user.name}`);
+        window.location.reload(); // Refresh the page to update navigation
+      } else {
+        setMessage("Error logging in: Invalid response from server.");
+      }
     } catch (error) {
       const errorMessage = error.response ? error.response.data.message : error.message;
       setMessage(`Error logging in: ${errorMessage}`);

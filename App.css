@@ -23,6 +23,17 @@
   filter: drop-shadow(0 0 2em #DEAC80); /* Lighter hover shadow */
 }
 
+.input-field {
+  width: 100%;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  border-radius: 5px;
+  border: 1px solid #914F1E;
+  background-color: #fff;
+  color: #2F2F2F;
+}
+
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

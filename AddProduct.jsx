@@ -50,15 +50,17 @@ function AddProduct() {
         product_code: values.productCode,
         name: values.name,
         description: values.description,
-        price: values.price,
-        qty: values.quantity,
-        date_added: values.dateAdded,
-      }); // Adjusted payload structure
+        price: Number(values.price),  // Ensure price is a number
+        qty: Number(values.quantity),  // Ensure quantity is a number
+        date_added: values.dateAdded,  // Use ISO format for dates if necessary
+      });
       setMessage(`Product saved successfully: ${response.data.name}`); // Success message
       console.log('Product data:', values); // For debugging
     } catch (error) {
-      setMessage('Error saving product. Please try again.'); // Error message
-      console.error(error);
+      // Improved error logging
+      const errorMessage = error.response ? error.response.data.message : error.message;
+      setMessage(`Error saving product: ${errorMessage}`); // Error message
+      console.error(error); // Log error details
     }
   };
 
@@ -74,7 +76,7 @@ function AddProduct() {
       {message && <p>{message}</p>} {/* Display feedback message */}
       <Formik
         validationSchema={schema}
-        onSubmit={handleSave}
+        onSubmit={handleSave} // Use the updated handleSave function
         initialValues={{
           productCode: '',
           name: '',

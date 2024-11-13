@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types'; // Import PropTypes
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 const styles = {
   container: {
@@ -21,10 +24,18 @@ const styles = {
     borderColor: '#28A745',
     marginRight: '10px',
   },
+  registerLink: {
+    marginTop: '10px',
+    display: 'block',
+    textAlign: 'center',
+    color: '#007BFF',
+    textDecoration: 'none',
+  }
 };
 
-function Login() {
+function Login({ onLogin }) {  // Accept onLogin as a prop
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   // Validation schema for login form
   const schema = yup.object().shape({
@@ -45,8 +56,9 @@ function Login() {
         localStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('token', response.data.token);
 
-        setMessage(`Welcome ${response.data.user.name}`);
-        window.location.reload(); // Refresh the page to update navigation
+        // Update user state in App component and redirect
+        onLogin(response.data.user);
+        navigate('/dashboard');  // Redirect to dashboard after successful login
       } else {
         setMessage("Error logging in: Invalid response from server.");
       }
@@ -100,8 +112,18 @@ function Login() {
           </Form>
         )}
       </Formik>
+      
+      {/* Register link */}
+      <Link to="/signup" style={styles.registerLink}>
+        If you dont have an account yet, register here
+      </Link>
     </div>
   );
 }
+
+// Define prop types
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired, // onLogin is a required function
+};
 
 export default Login;
